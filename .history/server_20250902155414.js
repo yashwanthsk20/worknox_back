@@ -9,23 +9,7 @@ require('dotenv').config();
 
 
 const app = express();
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
-const upload = multer({ storage });
 
-
-
-
-// Database connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error(err));
 // Middleware
 app.use(cors({
   origin: "https://worknoxfront.vercel.app", // your frontend URL
@@ -49,4 +33,20 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 // File upload setup
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
 
+
+
+
+// Database connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error(err));
